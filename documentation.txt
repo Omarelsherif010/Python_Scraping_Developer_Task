@@ -16,10 +16,34 @@ To run the code on you device, you need to do the following steps:
 6. check your MongoDB collection and congratulation
 
 ----
-Inside tiktok_scraper.py file, you will find the following functions:
+Functions inside TikTokScraper class in tiktok_scraper.py file:
 1. __int__() -> to intailize the database connection and choose or create collection
 2. scroll_to_load_videos() -> to give you the ability to scroll in order to load more videos
-3. search_and_save_to_mongodb(keyword) -> function that uses selenium to search on tiktok using the keyword entered. 
+3. search_and_save_to_mongodb(keyword) -> function that uses selenium to search on tiktok using the keyword entered as follows:
+                                            1- use XPATH to find search bar and write the keyword
+                                            2- wait for page to load then use scroll_to_load_videos() to load more videos
+                                            3- use XPATH to scrape video_links, upload_dates, and captions
+                                            4- enumerate through video_results and use beautifulsoup to extract text and hashtags from captions
+                                            5- check if video link existes in database collection then insert it to mongoDB using pymongo
+                                            6- we have another collection to track the duplicated scraped data
+4. scrape_tiktok_profile(username) -> function that uses selenium to scrape data from specific profile using username:
+                                        1- search the profile using username
+                                        2- scrape profile info like following, followers, likes
+                                        3- scroll_to_load_videos
+                                        4- scrape videos info
+                                        5- extract title and video link then check if it is not in database collection and insert it using pymongo
+                                        6- we also have another collection for duplicated scraped data
+
+----
+streamlit_app.py in details:
+1. User Input: Input database and collection names.
+2. Scraping Options: Choose between keyword search or profile scraping.
+3. Scraping by Keyword: Input keyword and initiate scraping.
+4. Scraping TikTok Profile: Input username and start scraping.
+
+------------------------------------------------------------------------
+Twitter
+
                                             
 
 
