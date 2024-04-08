@@ -9,11 +9,13 @@ To run the code on you device, you need to do the following steps:
 2. activate the venv through `source venv/Scripts/activate` (this command is for bash)
 3. install all required libraries from requirements.txt file by running this command `pip install -r requirements.txt`
 4. you can run the code in two ways:
-    1- run tiktok_scraper.py directly after you enter (keyword or username) in main function at the end of the file
-    2- run streamlit_app.py to have nice interface in which you can enter (keyword, username, db_name, collection)
-        , you can do this through this command `streamlit run streamlit_app.py` (make sure you are inside TitkTok_Scraper directory)
-5. fill the required fields and let the magic happen
-6. check your MongoDB collection and congratulation
+   <ol>
+   <li>  run tiktok_scraper.py directly after you enter (keyword or username) in main function at the end of the file </li>
+    <li> run streamlit_app.py to have nice interface in which you can enter (keyword, username, db_name, collection)
+        , you can do this through this command `streamlit run streamlit_app.py` (make sure you are inside TitkTok_Scraper directory) </li>
+   </ol>
+6. fill the required fields and let the magic happen
+7. check your MongoDB collection and congratulation
 
 ----
 Functions inside TikTokScraper class in tiktok_scraper.py file:
