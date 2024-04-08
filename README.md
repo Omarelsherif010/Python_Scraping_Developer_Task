@@ -1,4 +1,4 @@
-TikTok Scraper (Working)
+### TikTok Scraper (Working)
 You will find three important files inside TitkTok_Scraper(Working):
 1. [tiktok_scraper.py](TikTok_Scraper\tiktok_scraper.py) -> contains a class called TikTokScraper which includes all the functions needed.
 2. [streamlit_app.py](TikTok_Scraper\streamlit_app.py) -> contains easy to use interface to play around the scraping functions
@@ -37,8 +37,9 @@ Functions inside TikTokScraper class in tiktok_scraper.py file:
                                         <li>extract title and video link then check if it is not in database collection and insert it using pymongo</li>
                                         <li>we also have another collection for duplicated scraped data</li>
                                         </ol>
-<br>
-----
+<be>
+
+-----
 <br>
 streamlit_app.py in details:
 
@@ -50,8 +51,9 @@ streamlit_app.py in details:
 <br>
 
 -----
-<br>
-Twitter Scraper (Not Working):
+<be>
+
+### Twitter Scraper (Not Working)
 
 1. Twitter has blocked public to their data and we need to create account on Twitter Developer to use their API.
 2. Famous tools like snscrape, tweepy, twscrape are not working anymore without creating app at twitter developer.
