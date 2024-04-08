@@ -53,6 +53,13 @@ streamlit_app.py in details:
 <br>
 
 -----
+
+<br>
+
+> Note: You need to click `continue as guest` in TikTok when starting the scraping script as this part of the code don't work properly
+<br>
+
+-----
 <be>
 
 ### Twitter Scraper (Not Working)
