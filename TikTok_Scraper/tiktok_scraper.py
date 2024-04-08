@@ -8,11 +8,13 @@ import time
 from pymongo import MongoClient
 
 class TikTokScraper:
-    def __init__(self):
+    def __init__(self, db_name="tiktok_db", collection_name="tiktok_data"):
+        # Connect to MongoDB
         self.client = MongoClient("mongodb://localhost:27017/")
-        self.db = self.client["tiktok_db"]
-        self.collection = self.db["tiktok_data"]
-        self.duplicate = self.db["tiktok_data_duplicate"]
+        self.db = self.client[db_name]
+        self.collection = self.db[collection_name]
+        self.duplicate = self.db[collection_name + "_duplicate"]
+        # Initialize the Chrome webdriver
         self.driver = webdriver.Chrome()
 
     def scroll_to_load_videos(self):
@@ -40,26 +42,26 @@ class TikTokScraper:
 
             # Wait for the search results to load
             time.sleep(20)
+            self.scroll_to_load_videos()
 
             # Extract and process the search results
-            search_results = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/div/div[1]/div/div/a')
-            
+            video_results = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/div/div[1]/div/div/a')
+            upload_dates = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/div/div[1]/div/div/a/div/div[2]/div')
+            caption = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/div/div[2]/div/div[1]')
+
+            # print(f'Number of videos: {len(video_results)}')
+            # print(f'Number of dates: {len(upload_dates)}')
+            # print(f'Number of captions: {len(caption)}')
+
 
             time.sleep(20)
 
-            for i, result in enumerate(search_results, start=0):
-                # title = title_value.get_attribute("title")
-                video_link = result.get_attribute("href")
-
-                upload_dates = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/div/div[1]/div/div/a/div/div[2]/div')
-                print(upload_dates)
+            for i, video in enumerate(video_results, start=0):
+                video_link = video.get_attribute("href")
                 upload_date = upload_dates[i].text
-                print(upload_date)
-                
-                caption = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/div/div[2]/div/div[1]')
-        
-                title_hashtags = caption[i].get_attribute('outerHTML')
-                soup = BeautifulSoup(title_hashtags, 'html.parser')
+                caption_content = caption[i].get_attribute('outerHTML')
+
+                soup = BeautifulSoup(caption_content, 'html.parser')
                 
                 # Extract text content
                 text_content = soup.text
@@ -94,8 +96,8 @@ class TikTokScraper:
 
         finally:
             # Close the webdriver
-            # self.driver.quit()
-            print('search and save to mongodb done correctly')
+            self.driver.quit()
+            # print('search and save to mongodb done correctly')
 
     def scrape_tiktok_profile(self, username):
         try:
@@ -125,11 +127,11 @@ class TikTokScraper:
             self.scroll_to_load_videos()
             
             # Find video elements
-            video_elements = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/div/div/div[2]/div[3]/div/div/div[2]/div/a')
+            video_elements = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/a')
             print(f'Number of videos: {len(video_elements)}')
             
             # Extract title and link of each video
-            for i, video_element in enumerate(video_elements, 1):
+            for video_element in video_elements:
                 video_title = video_element.get_attribute("title")
                 video_link = video_element.get_attribute("href")
                 
@@ -143,16 +145,25 @@ class TikTokScraper:
                     self.collection.insert_one(data)
                     print(f"Profile Data saved to MongoDB: {data}")
                 
+                elif not self.duplicate.find_one({"video_link": video_link}):
+                    data = {
+                        "title": video_title,
+                        "video_link": video_link,
+                        "scraped_at": time.strftime("%Y-%m-%d %H:%M:%S")
+                    }
+                    self.duplicate.insert_one(data)
+                    print(f"Duplicated Profile Data saved to MongoDB: {data}")
+                
         finally:
             # Close the webdriver
-            # self.driver.quit()
-            print('Get videos from profile and save to mongodb done correclty')
+            self.driver.quit()
+            # print('Get videos from profile and save to mongodb done correclty')
 
 # Example usage
 def main():
-    tiktok_scraper = TikTokScraper()
-    tiktok_scraper.search_and_save_to_mongodb("english")
-    # tiktok_scraper.scrape_tiktok_profile("dailysabry")
+    tiktok_scraper = TikTokScraper(db_name='TikTok')
+    # tiktok_scraper.search_and_save_to_mongodb("Travel")
+    tiktok_scraper.scrape_tiktok_profile("luxtravelbe")
 
 if __name__ == "__main__":
     main()
