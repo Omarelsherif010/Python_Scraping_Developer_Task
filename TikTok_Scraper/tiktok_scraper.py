@@ -1,3 +1,19 @@
+"""
+TikTok Scraper
+
+This module contains a TikTokScraper class that allows scraping TikTok data using Selenium and BeautifulSoup,
+and saving the scraped data to MongoDB.
+
+Attributes:
+    - bs4: Beautiful Soup library for parsing HTML and XML documents.
+    - webdriver: Selenium WebDriver for automating web browsers.
+    - MongoClient: MongoDB client for Python.
+
+Classes:
+    - TikTokScraper: A class for scraping TikTok data and saving it to MongoDB.
+
+"""
+
 from bs4 import BeautifulSoup
 
 from selenium import webdriver
@@ -8,6 +24,20 @@ import time
 from pymongo import MongoClient
 
 class TikTokScraper:
+    """
+    TikTokScraper class for scraping TikTok data and saving it to MongoDB.
+
+    Attributes:
+        - db_name (str): The name of the MongoDB database to store the scraped data. Default is "tiktok_db".
+        - collection_name (str): The name of the MongoDB collection to store the scraped data. Default is "tiktok_data".
+
+    Methods:
+        - __init__: Initializes the TikTokScraper object.
+        - scroll_to_load_videos: Scrolls down the webpage to load more videos.
+        - search_and_save_to_mongodb: Searches for TikTok videos using a keyword and saves the data to MongoDB.
+        - scrape_tiktok_profile: Scrapes a TikTok user's profile data and saves it to MongoDB.
+    """
+    
     def __init__(self, db_name="tiktok_db", collection_name="tiktok_data"):
         # Connect to MongoDB
         self.client = MongoClient("mongodb://localhost:27017/")
