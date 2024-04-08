@@ -1,0 +1,25 @@
+TikTok Scraper (Working)
+You will find three important files inside TitkTok_Scraper(Working):
+1. tiktok_scraper.py -> contains a class called TikTokScraper which includes all the functions needed.
+2. streamlit_app.py -> contains easy to use interface to play around the scraping functions
+3. requirements.txt -> contains all the required packages to run the code (Main packages are selenium, pymongo, beautifulsoup, streamlit)
+
+To run the code on you device, you need to do the following steps:
+1. create virtual environment to install our libraries inside through this command 'python -m venv venv'
+2. activate the venv through 'source venv/Scripts/activate' (this command is for bash)
+3. install all required libraries from requirements.txt file by running this command 'pip install -r requirements.txt'
+4. you can run the code in two ways:
+    1- run tiktok_scraper.py directly after you enter (keyword or username) in main function at the end of the file
+    2- run streamlit_app.py to have nice interface in which you can enter (keyword, username, db_name, collection)
+        , you can do this through this command 'streamlit run streamlit_app.py' (make sure you are inside TitkTok_Scraper directory)
+5. fill the required fields and let the magic happen
+6. check your MongoDB collection and congratulation
+
+----
+Inside tiktok_scraper.py file, you will find the following functions:
+1. __int__() -> to intailize the database connection and choose or create collection
+2. scroll_to_load_videos() -> to give you the ability to scroll in order to load more videos
+3. search_and_save_to_mongodb(keyword) -> function that uses selenium to search on tiktok using the keyword entered. 
+                                            
+
+
