@@ -151,7 +151,7 @@ class TikTokScraper:
                         "video_link": video_link,
                         "scraped_at": time.strftime("%Y-%m-%d %H:%M:%S")
                     }
-                    self.collection.insert_one(data)
+                    self.duplicate.insert_one(data)
                     print(f"Duplicated Profile Data saved to MongoDB: {data}")
                 
         finally:
@@ -161,7 +161,7 @@ class TikTokScraper:
 
 # Example usage
 def main():
-    tiktok_scraper = TikTokScraper()
+    tiktok_scraper = TikTokScraper(db_name='TikTok')
     # tiktok_scraper.search_and_save_to_mongodb("Travel")
     tiktok_scraper.scrape_tiktok_profile("luxtravelbe")
 
