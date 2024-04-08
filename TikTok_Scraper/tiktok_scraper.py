@@ -82,7 +82,7 @@ class TikTokScraper:
                     self.collection.insert_one(data)
                     print(f"Data saved to MongoDB: {data}")
                 
-                elif not self.collection.find_one({"video_link": video_link}):
+                elif not self.duplicate.find_one({"video_link": video_link}):
 
                     data = {
                         "video_link": video_link,
