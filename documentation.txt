@@ -42,7 +42,17 @@ streamlit_app.py in details:
 4. Scraping TikTok Profile: Input username and start scraping.
 
 ------------------------------------------------------------------------
-Twitter
+Twitter Scraper (Not Working)
+1. Twitter has blocked public to their data and we need to create account on Twitter Developer to use their API.
+2. Famous tools like snscrape, tweepy, twscrape are not working anymore without creating app at twitter developer.
+3. The free version of twitter api don't allow read data, just allow writing few number of tweets
+
+Here are links to read more about the current situation:
+1- https://github.com/JustAnotherArchivist/snscrape/issues/996 (twitter added a login wall that blocks scraping data without using their official API)
+2- https://developer.twitter.com/en (Different Twitter API plans and prices)
+3- https://increditools.com/twitter-scrapers/ (ready to use tools to scrape twitter - not free)
+
+
 
                                             
 
